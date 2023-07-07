@@ -36,29 +36,29 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement() //(4)
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .and();
                 // UsernamePasswordAuthenticationFilter보다 JwtAuthenticationFilter를 먼저 수행
-                .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests() // (5)
+//                 .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+//                 .authorizeRequests() // (5)
 
-                // login, 회원가입 API는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll
-//                .antMatchers("/auth/**")
-                .antMatchers("/member/**","/board/list/**")
-                .permitAll()
+//                 // login, 회원가입 API는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll
+// //                .antMatchers("/auth/**")
+//                 .antMatchers("/member/**","/board/list/**")
+//                 .permitAll()
 
-                .antMatchers("/").permitAll()
+//                 .antMatchers("/").permitAll()
 
-                // 나머지는 전부 인증 필요
-                .antMatchers("/**")
-                .authenticated()
+//                 // 나머지는 전부 인증 필요
+//                 .antMatchers("/**")
+//                 .authenticated()
 
 
 
-                // 시큐리티는 기본적으로 세션을 사용
-                // 여기서는 세션을 사용하지 않기 때문에 세션 설정을 Stateless 로 설정
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//                 // 시큐리티는 기본적으로 세션을 사용
+//                 // 여기서는 세션을 사용하지 않기 때문에 세션 설정을 Stateless 로 설정
+//                 .and()
+//                 .sessionManagement()
+//                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Bean

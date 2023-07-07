@@ -11,5 +11,6 @@ public interface TestRepository extends JpaRepository<TestEntity, Integer> {
     public TestEntity findByIdx(int idx);
     public List<TestEntity> findByAge(int age);
     public List<TestEntity> findByName(String name);
+    
 
 }

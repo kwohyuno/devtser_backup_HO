@@ -59,18 +59,15 @@ public class HireBoardService {
     }
 
 
-
-
-    public HireBoardDto insertHireBoard(HireBoardDto dto,List<MultipartFile> upload,HttpSession session){ 
+    public HireBoardDto insertHireBoard(HireBoardDto dto,List<MultipartFile> upload){ 
         String hb_photo="";
         if(upload.get(0).getOriginalFilename().equals("")){
             hb_photo="no";
         } else{
             int i=0;
             for(MultipartFile mfile : upload) {
-//            hb_photo = storageService.uploadFile(bucketName,"hire",upload);
-                //사진 업로드.
                 hb_photo += (storageService.uploadFile(bucketName, "devster/hireboard", mfile) + ",");
+                logger.info("사진 업로드 완료");
             }
         }
         hb_photo=hb_photo.substring(0,hb_photo.length()-1);
@@ -89,10 +86,6 @@ public class HireBoardService {
     }
 
 
-
-
-
-
     public List<HireBoardDto> getAllData(){
         try{
             List<HireBoardDto> list = new ArrayList<>();
@@ -105,10 +98,6 @@ public class HireBoardService {
             throw e;
         }
     }    
-
-
-
-
 
 
     public HireBoardDto findByHbIdx(int idx){
@@ -125,20 +114,13 @@ public class HireBoardService {
     } 
 
 
-
-
-
-
-    public void deleteHireBoard(int hb_idx){
+    public void deleteHireBoard(int idx){
         try {
-            hireBoardRepository.deleteById((Integer)hb_idx);
+            hireBoardRepository.deleteById((Integer)idx);
         } catch (Exception e) {
             logger.error("Error occurred while deleting a entity",e);
         }
     }
-
-
-
 
 
     public void updateHireBoard(HireBoardDto dto,MultipartFile upload,int currentPage){

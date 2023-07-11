@@ -3,51 +3,58 @@ import javax.persistence.*;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+import data.dto.AcademyBoardDto;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-@Entity
-@EntityScan
+
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "academyboard")
+@Entity(name = "academyboard")
+@Builder
 public class AcademyBoardEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ab_idx")
-    private int abIdx;
-
+    private int ABidx;
     @Column(name = "m_idx")
-    private short mIdx;
-
-    @Column(name = "ab_subject", nullable = false, length = 200)
-    private String abSubject;
-
-    @Column(name = "ab_content", nullable = false, length = 10000)
-    private String abContent;
-
-    @Column(name = "ab_photo", length = 500)
-    private String abPhoto;
-
-    @Column(name = "ab_readcount", columnDefinition = "smallint default 0")
-    private short abReadCount;
-
-    @Column(name = "ab_like", columnDefinition = "smallint default 0")
-    private short abLike;
-
-    @Column(name = "ab_dislike", columnDefinition = "smallint default 0")
-    private short abDislike;
-
-    @Column(name = "ab_writeday", columnDefinition = "datetime default current_timestamp")
-    private LocalDateTime abWriteDay;
-
+    private int MIdx;
+    @Column(name = "ab_subject")
+    private String ABsubject;
+    @Column(name = "ab_content")
+    private String ABcontent;
+    @Column(name = "ab_photo")
+    private String ABphoto;
+    @Column(name = "ab_readcount",insertable = false)
+    private int ABreadcount;
+    @Column(name = "ab_like")
+    private int ABlike;
+    @Column(name = "ab_dislike")
+    private int ABdislike;
+    @Column(name = "ab_writeday",insertable = false)
+    private Timestamp ABwriteday;
     @Column(name = "ai_idx")
-    private short aiIdx;
+    private int AIidx;
 
-    // Getter와 Setter
-
+    public static AcademyBoardEntity toAcademyBoardEntity(AcademyBoardDto dto){
+        return AcademyBoardEntity.builder()
+            .ABidx(dto.getAb_idx())
+            .MIdx(dto.getM_idx())
+            .ABsubject(dto.getAb_subject())
+            .ABcontent(dto.getAb_content())
+            .ABphoto(dto.getAb_photo())
+            .ABreadcount(dto.getAb_readcount())
+            .ABlike(dto.getAb_like())
+            .ABdislike(dto.getAb_dislike())
+            .ABwriteday(dto.getAb_writeday())
+            .ABidx(dto.getAi_idx())
+            .build();
+    }
 }

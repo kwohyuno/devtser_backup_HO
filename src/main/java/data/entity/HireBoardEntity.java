@@ -33,7 +33,7 @@ public class HireBoardEntity {
     @Column(name = "hb_photo")
     private String HBphoto;
     @Column(name="hb_readcount",insertable = false)
-    private int HBreadcount = 0;
+    private int HBreadcount;
     @Column(name="hb_writeday",insertable = false)
     private Timestamp HBwriteday;
 

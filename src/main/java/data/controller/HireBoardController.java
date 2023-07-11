@@ -8,24 +8,24 @@ import data.service.TestService;
 import lombok.extern.slf4j.Slf4j;
 import naver.cloud.NcpObjectStorageService;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+// import org.apache.commons.text.escape.Xml10CharEscapes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+
 
 @RestController
 @CrossOrigin
-@Slf4j
 @RequestMapping("/hireboard")
 public class HireBoardController {
 
@@ -39,8 +39,8 @@ public class HireBoardController {
 
 
     @PostMapping
-    public ResponseEntity<HireBoardDto> insert(@RequestBody HireBoardDto dto,List<MultipartFile> upload,HttpSession session){
-        return new ResponseEntity<HireBoardDto>(hireBoardService.insertHireBoard(dto,upload,session),HttpStatus.OK);
+    public ResponseEntity<HireBoardDto> insert(@RequestBody HireBoardDto dto,@RequestPart List<MultipartFile> upload){
+        return new ResponseEntity<HireBoardDto>(hireBoardService.insertHireBoard(escapeDto(dto),upload),HttpStatus.OK);
     }
     
     @GetMapping
@@ -54,8 +54,9 @@ public class HireBoardController {
     }
 
     @DeleteMapping("/{idx}")
-    public void deleteHireBoard(@PathVariable Integer idx){
+    public ResponseEntity<Void> deleteHireBoard(@PathVariable Integer idx){
         hireBoardService.deleteHireBoard(idx);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/form/{idx}")
@@ -65,25 +66,28 @@ public class HireBoardController {
 
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody HireBoardDto dto, MultipartFile upload, int currentPage){
-        hireBoardService.updateHireBoard(dto,upload,currentPage);
+        hireBoardService.updateHireBoard(escapeDto(dto),upload,currentPage);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
     @GetMapping("/listajax")
-    @ResponseBody
     public Map<String,Object> list(int currentPage){
         return hireBoardService.list(currentPage);
     }
 
 
-    @GetMapping("/{hb_idx}/increaseBkmk")
-    @ResponseBody
-    public void increaseBkmk(@PathVariable Integer hb_idx, Integer m_idx){
+    @GetMapping("/increaseBkmk")
+    public void increaseBkmk(Integer hb_idx, Integer m_idx){
         hireBoardService.addBkmk(hb_idx,m_idx);
     }
 
+    public HireBoardDto escapeDto(HireBoardDto dto){
+        dto.setHb_content(StringEscapeUtils.escapeHtml4(dto.getHb_content()));
+        dto.setHb_subject(StringEscapeUtils.escapeHtml4(dto.getHb_subject()));
 
+        return dto;
+    }
 
 }
 

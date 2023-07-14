@@ -36,6 +36,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class) // catch-all handler
     public ResponseEntity<Void> handleAllExceptions(Exception e) {
         logger.error("Error occurred: " + e.getMessage() + e);
+        e.printStackTrace();
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

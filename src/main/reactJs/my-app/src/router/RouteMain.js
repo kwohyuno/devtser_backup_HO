@@ -35,7 +35,7 @@ function RouteMain(props) {
         <Route path="/qboard" element={<Qboard />} />
 
         <Route path="/hboard" element={<Hboard />} />
-        <Route path="/hboard/list/:currentPage" element={<Hboard />} />
+        <Route path="/hboard/:currentPage" element={<Hboard />} />
 
         <Route path="/aboard" element={<Aboard />} />
         <Route path="/fboard/form" element={<FboardForm />} />

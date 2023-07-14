@@ -6,6 +6,7 @@ import java.util.Map;
 import data.dto.HireBoardDto;
 import data.entity.HireBoardEntity;
 import data.entity.HireBookmarkEntity;
+import data.mapper.HireBoardMapper;
 import data.repository.HireBoardRepository;
 import data.repository.HireBookmarkRepository;
 import naver.cloud.NcpObjectStorageService;
@@ -20,12 +21,14 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.From;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -35,8 +38,8 @@ import org.slf4j.LoggerFactory;
 @Service
 public class HireBoardService {
 
-    // @Autowired
-    // HireBoardMapper hireBoardMapper;
+    @Autowired
+    HireBoardMapper hireBoardMapper;
 
     private final Logger logger = LoggerFactory.getLogger(HireBoardService.class);
     
@@ -101,7 +104,18 @@ public class HireBoardService {
         return map;
     }
 
+    
+    public int getTotalCount(){
+        return (int)hireBoardRepository.count();
+    }
 
+    public List<HireBoardDto> getPagingList(int start, int perpage) {
+        Map<String, Integer> map=new HashMap<>();
+        map.put("start", start);
+        map.put("perpage", perpage);
+
+        return hireBoardMapper.getPagingList(map);
+    }
  
     
 

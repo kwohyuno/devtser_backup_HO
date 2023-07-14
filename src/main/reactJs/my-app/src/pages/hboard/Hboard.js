@@ -4,22 +4,37 @@ import Axios from "axios";
 import { useEffect, useState } from "react";
 
 const Hboard = () => {
-  const [data, setData] = useState("");
-
+  const [data, setData] = useState({});
   const { currentPage } = useParams();
 
-  const list = () => {
-    const url =
-      "/hboard/list?currentPage=" + (currentPage == null ? 1 : currentPage);
-    Axios.get(url).then((res) => {
-      setData(res.data);
-      console.log(res.data);
-    });
-  };
+  // const list = () => {
+  //   const url =
+  //     "/hboard/list?currentPage=" + (currentPage == null ? 1 : currentPage);
+  //   Axios.get(url).then((res) => {
+  //     setData(res.data);
+  //     console.log(res.data);
+  //   });
+  // };
 
-  useEffect(() => {
-    list();
-  }, [currentPage]);
+  // // useEffect(() => {
+  // //   const fetchBoardList = async () => {
+  // //     try {
+  // //       const response = await Axios.get(
+  // //         "/hboard/list" + currentPage == null ? 1 : currentPage
+  // //       );
+  // //       console.log(response.data);
+  // //       setData(response.data);
+  // //     } catch (error) {
+  // //       console.error("Error fetching data: ", error);
+  // //     }
+  // //   };
+
+  // //   fetchBoardList();
+  // // }, []);
+
+  // useEffect(() => {
+  //   list();
+  // }, [currentPage]);
 
   return (
     <div className="hboard">
